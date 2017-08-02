@@ -1,0 +1,18 @@
+<h1>{{ title }}</h1>
+<p>Welcome to {{ title }}</p>
+
+{{!-- <form action = "/magickingdom" method = "post">
+  <button type = "mk">Magic Kingdom</button>
+</form> --}}
+
+{{!-- {{# each disarray as |val key| }}
+    {{ this }}  
+   {{!-- {{ key }} : {{ val }}  --}}
+{{!-- {{/each}} --}}
+
+<form action = "/park/submit" method = "post">
+  <button type = "submit" name = "id" value = "MagicKingdom">Magic Kingdom</button>
+  <button type = "submit" name = "id" value = "EPCOT">EPCOT</button>
+  <button type = "submit" name = "id" value = "HollywoodStudios">Disney's Hollywood Studios</button>
+  <button type = "submit" name = "id" value = "AnimalKingdom">Disney's Animal Kingdom</button>
+</form> 
