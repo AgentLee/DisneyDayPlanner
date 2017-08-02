@@ -3,10 +3,25 @@ var router      = express.Router();
 var themeparks  = require('themeparks');
 var json        = require('jsonfile');
 var fs          = require('fs');
+var request       = require('request');
+var cheerio       = require('cheerio');
+
+var weather;
+var url = "https://weather.com/weather/today/l/USFL0615:1:US";
+request(url, function(err, resp, body) {
+  var $ = cheerio.load(body);
+
+  // Gets you 5 day forecast
+  var temp      = $('.today-daypart-temp');
+  // Only want the first temperature
+  var tempText  = temp.text().substring(0, 3);
+
+  weather = tempText;
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Walt Disney World Wait Times' });
+  res.render('index', { title: 'Walt Disney World Wait Times', weather : weather });
 });
 
 // This gets triggered when the user clicks on a button
@@ -62,7 +77,13 @@ router.get('/magickingdom', function(req, res, next)
 
     // print each wait time
     for(var i=0, ride; ride=rides[i++];) {
-        console.log(ride.name + ": " + ride.waitTime + " minutes wait");
+        // console.log(ride.name + ": " + ride.waitTime + " minutes wait");
+        
+        var name = ride.name;
+        if( name.includes('Horses') ||
+            name.includes('Mickey\'s Very Merry Christmas Party') ||
+            name.includes('Mickey\'s Not-So-Scary'))
+              continue;
 
         waittimes.push(ride.waitTime);
         ridenames.push(ride.name);
@@ -83,7 +104,7 @@ router.get('/magickingdom', function(req, res, next)
 
     mk_rides = obj;
 
-    res.render('magickingdom', { park : 'Magic Kingdom', rides : mk_rides });
+    res.render('magickingdom', { park : 'Magic Kingdom', rides : mk_rides, weather : weather });
   });
 });
 
@@ -106,7 +127,7 @@ router.get('/epcot', function(req, res, next) {
     }
 
     // Render the page once the rides/times are loaded
-    res.render('epcot', { park : 'EPCOT', rides : epcot_rides});
+    res.render('epcot', { park : 'EPCOT', rides : epcot_rides, weather : weather });
   });
 });
 
@@ -125,17 +146,28 @@ router.get('/hollywoodstudios', function(req, res, next) {
       return console.error(err);
 
     for(var i=0, ride; ride=rides[i++];) {
+        var name = ride.name;
+
+        // Filter
+        if( name.includes('Lights, Motors, Action') ||
+            name.includes('Wandering Oaken\'s') ||
+            name.includes('Olaf') ||
+            name.includes('Short Film') ||
+            name.includes('Star Wars') ||
+            name.includes('Cars 3') ||
+            name.includes('Pirates')) 
+                continue;
+
         dhs_rides.attractions.push({ name : ride.name, time : ride.waitTime });
     }
 
     // Render the page once the rides/times are loaded
-    res.render('hollywoodstudios', { park : 'Disney\'s Hollywood Studios', rides : dhs_rides});
+    res.render('hollywoodstudios', { park : 'Disney\'s Hollywood Studios', rides : dhs_rides, weather : weather });
   });
 });
 
 // DAK
 router.get('/animalkingdom', function(req, res, next) {
-  // Theme Park object
   var dak       = new themeparks.Parks.WaltDisneyWorldAnimalKingdom();
   // JSON object
   var dak_rides = 
@@ -149,11 +181,19 @@ router.get('/animalkingdom', function(req, res, next) {
       return console.error(err);
 
     for(var i=0, ride; ride=rides[i++];) {
+        var name = ride.name;
+        if( name.includes('Disney Animals') || 
+            name.includes('Affection Section') ||
+            name.includes('Conservation Station') ||
+            name.includes('Jungle Trek') ||
+            name.includes('Exploration Trail')) 
+              continue;
+
         dak_rides.attractions.push({ name : ride.name, time : ride.waitTime });
     }
 
     // Render the page once the rides/times are loaded
-    res.render('animalkingdom', { park : 'Disney\'s Animal Kingdom', rides : dak_rides });
+    res.render('animalkingdom', { park : 'Disney\'s Animal Kingdom', rides : dak_rides, weather : weather });
   });
 });
 

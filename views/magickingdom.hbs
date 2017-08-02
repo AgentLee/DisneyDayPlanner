@@ -1,11 +1,21 @@
 <h1>{{ park }}</h1>
-<hr>
+<h2><small>Current Temperature:</small> {{ weather }}</h2>
 
-<table>
+<br>
+
+<table class = "table">
+    <thead>
+        <tr>
+            <th>Attraction</th>
+            <th>Wait Time</th>
+            <th>Add to plans</th>
+        </tr>
+    </thead>
     {{#each rides.attractions}}
         <tr>
             <th style = "text-align: left;">{{ this.name }}</th>
             <th>{{ this.time }}</th>
+            <th><button type = "button" class = "btn btn-default btn-circle"><i class = "glyphicon glyphicon-plus"></i></th>
         </tr>
     {{/each}}
 <table>

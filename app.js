@@ -8,6 +8,8 @@ var hbs           = require('express-handlebars');
 var themeparks    = require('themeparks');
 var json          = require('jsonfile');
 var fs            = require('fs');
+var request       = require('request');
+var cheerio       = require('cheerio');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
