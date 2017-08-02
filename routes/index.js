@@ -89,17 +89,72 @@ router.get('/magickingdom', function(req, res, next)
 
 // EPCOT
 router.get('/epcot', function(req, res, next) {
-  res.render('epcot', { park : 'EPCOT'});
+  var epcot       = new themeparks.Parks.WaltDisneyWorldEpcot();
+  // JSON object
+  var epcot_rides = 
+  {
+    attractions : []
+  };
+
+  epcot.GetWaitTimes(function(err, rides) 
+  {
+    if (err) 
+      return console.error(err);
+
+    for(var i=0, ride; ride=rides[i++];) {
+        epcot_rides.attractions.push({ name : ride.name, time : ride.waitTime });
+    }
+
+    // Render the page once the rides/times are loaded
+    res.render('epcot', { park : 'EPCOT', rides : epcot_rides});
+  });
 });
 
 // DHS
 router.get('/hollywoodstudios', function(req, res, next) {
-  res.render('hollywoodstudios', { park : 'Disney\'s Hollywood Studios' });
+  var dhs       = new themeparks.Parks.WaltDisneyWorldHollywoodStudios();
+  // JSON object
+  var dhs_rides = 
+  {
+    attractions : []
+  };
+
+  dhs.GetWaitTimes(function(err, rides) 
+  {
+    if (err) 
+      return console.error(err);
+
+    for(var i=0, ride; ride=rides[i++];) {
+        dhs_rides.attractions.push({ name : ride.name, time : ride.waitTime });
+    }
+
+    // Render the page once the rides/times are loaded
+    res.render('hollywoodstudios', { park : 'Disney\'s Hollywood Studios', rides : dhs_rides});
+  });
 });
 
 // DAK
 router.get('/animalkingdom', function(req, res, next) {
-  res.render('animalkingdom', { park : 'Disney\'s Animal Kingdom' });
+  // Theme Park object
+  var dak       = new themeparks.Parks.WaltDisneyWorldAnimalKingdom();
+  // JSON object
+  var dak_rides = 
+  {
+    attractions : []
+  };
+
+  dak.GetWaitTimes(function(err, rides) 
+  {
+    if (err) 
+      return console.error(err);
+
+    for(var i=0, ride; ride=rides[i++];) {
+        dak_rides.attractions.push({ name : ride.name, time : ride.waitTime });
+    }
+
+    // Render the page once the rides/times are loaded
+    res.render('animalkingdom', { park : 'Disney\'s Animal Kingdom', rides : dak_rides });
+  });
 });
 
 

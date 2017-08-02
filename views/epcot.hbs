@@ -1,1 +1,12 @@
-<h2>{{ park }}</h2>
+<h1>{{ park }}</h1>
+<hr>
+
+<table>
+    {{#each rides.attractions}}
+        <tr>
+            <th style = "text-align: left;">{{ this.name }}</th>
+            <th>{{ this.time }}</th>
+        </tr>
+    {{/each}}
+<table>
+
