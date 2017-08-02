@@ -2,6 +2,7 @@
 
 ## Current Version
 - Displays wait times for the four parks.
+- Displays current weather
 
 ## Todo/Ideas
 - Design a better looking webapp.
@@ -11,7 +12,7 @@
 - Pull data for showtimes.
 - Disney Dining Plan entitlements counter.
 - Log in to MyDisneyExperience to link FastPass+ and resort and dining reservations. 
-- Weather/What to bring to parks.
+- What to bring to parks.
 - Notifications
 
 
