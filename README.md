@@ -1,4 +1,4 @@
-# Untitled-Disney-App
+# Disney Day Planner
 
 ## Current Version
 - Displays wait times for the four parks.
